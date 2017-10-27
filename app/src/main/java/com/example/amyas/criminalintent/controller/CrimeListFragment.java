@@ -1,5 +1,6 @@
 package com.example.amyas.criminalintent.controller;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.amyas.criminalintent.R;
 import com.example.amyas.criminalintent.model.Crime;
@@ -38,10 +38,14 @@ public class CrimeListFragment extends Fragment {
     }
 
     private void updateUI() {
-        CrimeLab crimeLab = CrimeLab.get(getActivity());
-        List<Crime> crimes = crimeLab.getCrimes();
-        mCrimeAdapter = new CrimeAdapter(crimes);
-        mRecyclerView.setAdapter(mCrimeAdapter);
+        List<Crime> crimes = CrimeLab.get(getActivity()).getCrimes();
+        if (mCrimeAdapter == null) {
+            mCrimeAdapter = new CrimeAdapter(crimes);
+            mRecyclerView.setAdapter(mCrimeAdapter);
+        } else {
+            mCrimeAdapter.notifyDataSetChanged();
+        }
+
     }
 
     private class CrimeHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -68,7 +72,10 @@ public class CrimeListFragment extends Fragment {
 
         @Override
         public void onClick(View view) {
-            Toast.makeText(getActivity(), mCrime.getTitle()+" clicked!", Toast.LENGTH_SHORT).show();
+            Intent intent = CrimeActivity.newIntent(getActivity(), mCrime.getUUID());
+
+            startActivity(intent);
+
         }
     }
 
@@ -96,5 +103,11 @@ public class CrimeListFragment extends Fragment {
         public int getItemCount() {
             return mCrimes.size();
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateUI();
     }
 }

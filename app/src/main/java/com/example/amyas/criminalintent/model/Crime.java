@@ -45,4 +45,14 @@ public class Crime {
     public void setSolved(boolean solved) {
         mSolved = solved;
     }
+
+    @Override
+    public String toString() {
+        return "Crime{" +
+                "mUUID=" + mUUID +
+                ", mTitle='" + mTitle + '\'' +
+                ", mDate=" + mDate +
+                ", mSolved=" + mSolved +
+                '}';
+    }
 }
