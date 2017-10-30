@@ -26,6 +26,8 @@ public class CrimePagerActivity extends AppCompatActivity {
             "com.amyas.criminalintent.crime_id";
     private ViewPager mViewPager;
     private List<Crime> mCrimes;
+    //    private Button jumpToFirst;
+    //    private Button jumpToLast;
 
     public static Intent newIntent(Context packageContext, UUID uuid) {
         Intent intent = new Intent(packageContext, CrimePagerActivity.class);
@@ -40,6 +42,11 @@ public class CrimePagerActivity extends AppCompatActivity {
 
         UUID crime_id = (UUID) getIntent().getSerializableExtra(EXTRA_CRIME_ID);
         mViewPager = (ViewPager) findViewById(R.id.crime_view_pager);
+
+        //        jumpToFirst = (Button) findViewById(R.id.crime_jump_to_first);
+        //        jumpToLast = (Button) findViewById(R.id.crime_jump_to_last);
+        //        jumpToFirst.setOnClickListener(this);
+        //        jumpToLast.setOnClickListener(this);
 
         mCrimes = CrimeLab.get(this).getCrimes();
         FragmentManager manager = getSupportFragmentManager();
@@ -65,4 +72,16 @@ public class CrimePagerActivity extends AppCompatActivity {
 
 
     }
+
+    //    @Override
+    //    public void onClick(View view) {
+    //        switch (view.getId()){
+    //            case R.id.crime_jump_to_first:
+    //                mViewPager.setCurrentItem(0);
+    //                jumpToFirst.setEnabled(false);
+    //            case R.id.crime_jump_to_last:
+    //                mViewPager.setCurrentItem(mCrimes.size()-1);
+    //                jumpToLast.setEnabled(false);
+    //        }
+    //    }
 }
