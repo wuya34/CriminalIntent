@@ -20,6 +20,10 @@ public class CrimeLab {
         mCrimes.add(crime);
     }
 
+    public void remove(Crime crime) {
+        mCrimes.remove(crime);
+    }
+
     private CrimeLab(Context context) {
         mCrimes = new ArrayList<>();
 

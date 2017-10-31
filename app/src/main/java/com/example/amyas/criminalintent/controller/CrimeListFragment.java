@@ -33,11 +33,15 @@ public class CrimeListFragment extends Fragment {
     private int CRIME_PAGER_CODE = 10;
     private String CRIME_PAGER_RESULT = "CRIME_PAGER_RESULT";
     private int currentIndex = 0;
+    private boolean mSubtitleVisible;
+    private static final String BUNDLE_SUBTITLE = "bundle_crime_list_subtitle";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setHasOptionsMenu(true);
+
     }
 
     @Nullable
@@ -46,6 +50,11 @@ public class CrimeListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_crime_list, container, false);
         mRecyclerView = view.findViewById(R.id.crime_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        if (savedInstanceState != null) {
+            mSubtitleVisible = savedInstanceState.getBoolean(BUNDLE_SUBTITLE);
+        }
+
         updateUI();
         return view;
     }
@@ -58,6 +67,8 @@ public class CrimeListFragment extends Fragment {
         } else {
             mCrimeAdapter.notifyDataSetChanged();
         }
+
+        updateSubtitle();
 
     }
 
@@ -137,6 +148,12 @@ public class CrimeListFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_crime_list, menu);
+        MenuItem subtitleItem = menu.findItem(R.id.show_subtitle);
+        if (mSubtitleVisible) {
+            subtitleItem.setTitle(R.string.hide_subtitle);
+        } else {
+            subtitleItem.setTitle(R.string.show_subtitle);
+        }
     }
 
     @Override
@@ -149,6 +166,8 @@ public class CrimeListFragment extends Fragment {
                 startActivity(intent);
                 return true;
             case R.id.show_subtitle:
+                mSubtitleVisible = !mSubtitleVisible;
+                getActivity().invalidateOptionsMenu();
                 updateSubtitle();
                 return true;
             default:
@@ -158,8 +177,18 @@ public class CrimeListFragment extends Fragment {
 
     private void updateSubtitle() {
         int crimeCount = CrimeLab.get(getActivity()).getCrimes().size();
-        String subtitle = getString(R.string.subtitle_format, crimeCount);
+        //        String subtitle = getString(R.string.subtitle_format, crimeCount);
+        String subtitle = getResources().getQuantityString(R.plurals.subtitle_plural, crimeCount, crimeCount);
+        if (!mSubtitleVisible) {
+            subtitle = null;
+        }
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.getSupportActionBar().setSubtitle(subtitle);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(BUNDLE_SUBTITLE, mSubtitleVisible);
     }
 }
