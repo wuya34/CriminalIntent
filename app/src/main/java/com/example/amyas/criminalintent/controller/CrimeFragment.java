@@ -147,4 +147,10 @@ public class CrimeFragment extends Fragment implements View.OnClickListener {
 
         }
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        CrimeLab.get(getActivity()).updateCrime(mCrime);
+    }
 }

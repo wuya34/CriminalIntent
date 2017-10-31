@@ -30,6 +30,7 @@ import java.util.List;
 public class CrimeListFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private CrimeAdapter mCrimeAdapter;
+    private TextView mTextViewHint;
     private int CRIME_PAGER_CODE = 10;
     private String CRIME_PAGER_RESULT = "CRIME_PAGER_RESULT";
     private int currentIndex = 0;
@@ -48,6 +49,8 @@ public class CrimeListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_crime_list, container, false);
+
+        mTextViewHint = view.findViewById(R.id.empty_hint);
         mRecyclerView = view.findViewById(R.id.crime_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -61,15 +64,24 @@ public class CrimeListFragment extends Fragment {
 
     private void updateUI() {
         List<Crime> crimes = CrimeLab.get(getActivity()).getCrimes();
+        checkCrimes(crimes);
         if (mCrimeAdapter == null) {
             mCrimeAdapter = new CrimeAdapter(crimes);
             mRecyclerView.setAdapter(mCrimeAdapter);
         } else {
+            mCrimeAdapter.setCrimes(crimes);
             mCrimeAdapter.notifyDataSetChanged();
         }
 
         updateSubtitle();
 
+    }
+
+    private void checkCrimes(List<Crime> crimeList) {
+        if (crimeList.size() == 0) {
+            mRecyclerView.setVisibility(View.GONE);
+            mTextViewHint.setVisibility(View.VISIBLE);
+        }
     }
 
     private class CrimeHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -135,6 +147,10 @@ public class CrimeListFragment extends Fragment {
         @Override
         public int getItemCount() {
             return mCrimes.size();
+        }
+
+        public void setCrimes(List<Crime> crimes) {
+            mCrimes = crimes;
         }
     }
 
