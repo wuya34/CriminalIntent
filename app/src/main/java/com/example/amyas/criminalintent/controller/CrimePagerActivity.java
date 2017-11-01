@@ -21,7 +21,8 @@ import java.util.UUID;
  * date: 2017/10/30
  */
 
-public class CrimePagerActivity extends AppCompatActivity {
+public class CrimePagerActivity extends AppCompatActivity
+        implements CrimeFragment.CallBacks {
     private static final String EXTRA_CRIME_ID =
             "com.amyas.criminalintent.crime_id";
     private ViewPager mViewPager;
@@ -70,6 +71,16 @@ public class CrimePagerActivity extends AppCompatActivity {
         }
         //        mViewPager.setCurrentItem(crime_id);
 
+
+    }
+
+    @Override
+    public void onCrimeUpdated(Crime crime) {
+
+    }
+
+    @Override
+    public void onDetachFragment(Fragment fragment) {
 
     }
 

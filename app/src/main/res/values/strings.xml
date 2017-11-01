@@ -16,5 +16,14 @@
 
     <string name="remove_crime">remove</string>
     <string name="recycler_view_empty">no crime could be show</string>
+    <string name="choose_suspect">choose suspect</string>
+    <string name="send_crime_report">send crime report</string>
 
+    <string name="crime_report">%1$s! the crime was discovered on %2$s. %3$s, and %4$s</string>
+    <string name="crime_report_solved">The case is solved</string>
+    <string name="crime_report_unsolved">The case is not solved</string>
+    <string name="crime_report_no_suspect">there is no suspect</string>
+    <string name="crime_report_suspect">the suspect is %s</string>
+    <string name="send_report">Send crime report via</string>
+    <string name="crime_report_subject">CriminalIntent Crime Report</string>
 </resources>

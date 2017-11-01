@@ -32,6 +32,8 @@ public class CrimeLab {
 
     public void remove(Crime crime) {
         //        mCrimes.remove(crime);
+        String uuidString = crime.getUUID().toString();
+        mDatabase.delete(CrimeTable.NAME, CrimeTable.Cols.UUID + " = ?", new String[]{uuidString});
     }
 
     private CrimeLab(Context context) {
@@ -76,6 +78,10 @@ public class CrimeLab {
         }
     }
 
+    public Crime getFirstCrime() {
+        return getCrimes().get(0);
+    }
+
     public void updateCrime(Crime crime) {
         String uuidString = crime.getUUID().toString();
         ContentValues values = getContentValues(crime);
@@ -89,6 +95,7 @@ public class CrimeLab {
         values.put(CrimeTable.Cols.DATE, crime.getDate().getTime());
         values.put(CrimeTable.Cols.TITLE, crime.getTitle());
         values.put(CrimeTable.Cols.SOLVED, crime.isSolved() ? 1 : 0);
+        values.put(CrimeTable.Cols.SUSPECT, crime.getSuspect());
         return values;
     }
 

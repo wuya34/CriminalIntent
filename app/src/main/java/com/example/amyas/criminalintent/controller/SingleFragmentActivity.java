@@ -1,6 +1,7 @@
 package com.example.amyas.criminalintent.controller;
 
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -17,7 +18,7 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fragment);
+        setContentView(getLayout());
 
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.fragment_container);
@@ -27,5 +28,10 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    @LayoutRes
+    protected int getLayout() {
+        return R.layout.activity_fragment;
     }
 }

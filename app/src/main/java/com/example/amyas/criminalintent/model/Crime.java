@@ -13,13 +13,23 @@ public class Crime {
     private String mTitle;
     private Date mDate;
     private boolean mSolved;
-    public Crime(){
+    private String suspect;
+
+    public Crime() {
         this(UUID.randomUUID());
     }
 
     public Crime(UUID UUID) {
         mUUID = UUID;
         mDate = new Date();
+    }
+
+    public String getSuspect() {
+        return suspect;
+    }
+
+    public void setSuspect(String suspect) {
+        this.suspect = suspect;
     }
 
     public UUID getUUID() {
