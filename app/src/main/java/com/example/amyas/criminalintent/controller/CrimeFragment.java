@@ -212,7 +212,7 @@ public class CrimeFragment extends Fragment implements View.OnClickListener {
             case R.id.remove_crime:
                 CrimeLab crimeLab = CrimeLab.get(getActivity());
                 crimeLab.remove(mCrime);
-                // TODO: 2017/11/1 解决平板模式下的finish问题
+                // TODO: 2017/11/1 删除后设置显示上一个Crime
                 if (getActivity().getSupportFragmentManager().
                         findFragmentById(R.id.detail_fragment_container) != null) {
                     mCallBacks.onCrimeUpdated(null);

@@ -78,6 +78,7 @@ public class CrimeLab {
         }
     }
 
+    //// TODO: 2017/11/1 优化查询
     public Crime getFirstCrime() {
         return getCrimes().get(0);
     }
