@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.amyas.criminalintent.R;
+import com.example.amyas.criminalintent.adapter.ItemTouchHelperCallback;
 import com.example.amyas.criminalintent.model.Crime;
 import com.example.amyas.criminalintent.model.CrimeLab;
 
@@ -86,6 +88,9 @@ public class CrimeListFragment extends Fragment {
         if (mCrimeAdapter == null) {
             mCrimeAdapter = new CrimeAdapter(crimes);
             mRecyclerView.setAdapter(mCrimeAdapter);
+            ItemTouchHelper.Callback callback = new ItemTouchHelperCallback(mCrimeAdapter);
+            ItemTouchHelper helper = new ItemTouchHelper(callback);
+            helper.attachToRecyclerView(mRecyclerView);
         } else {
             mCrimeAdapter.setCrimes(crimes);
             mCrimeAdapter.notifyDataSetChanged();
@@ -141,7 +146,7 @@ public class CrimeListFragment extends Fragment {
         }
     }
 
-    private class CrimeAdapter extends RecyclerView.Adapter<CrimeHolder> {
+    private class CrimeAdapter extends RecyclerView.Adapter<CrimeHolder> implements ItemTouchHelperCallback.ItemTouchHelperAdapter {
         private List<Crime> mCrimes;
 
         public CrimeAdapter(List<Crime> crimes) {
@@ -168,6 +173,20 @@ public class CrimeListFragment extends Fragment {
 
         public void setCrimes(List<Crime> crimes) {
             mCrimes = crimes;
+        }
+
+        @Override
+        public void onItemDismiss(int position) {
+            List<Crime> crimes = CrimeLab.get(getActivity()).getCrimes();
+            Crime crime = crimes.get(position);
+            CrimeLab.get(getActivity()).remove(crime);
+            notifyItemRemoved(position);
+            updateUI();
+            //            if (getActivity().getSupportFragmentManager().
+            //                    findFragmentById(R.id.detail_fragment_container) != null) {
+            //                getActivity().onCrimeUpdated(null);
+            //                mCallBacks.onDetachFragment(this);
+
         }
     }
 
